@@ -16,40 +16,39 @@
  */
 package org.superbiz;
 
-import javax.ejb.Singleton;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-
-import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
+import javax.ejb.Singleton
+import javax.ws.rs.GET
+import javax.ws.rs.POST
+import javax.ws.rs.Path
+import javax.ws.rs.PathParam
+import javax.ws.rs.Produces
+import javax.ws.rs.core.MediaType
 
 @Path("/color")
 @Singleton
-public class ColorService {
+class ColorService {
+    
+    String color;
 
-    private String color;
-
-    public ColorService() {
-        this.color = "white";
+    new() {
+        color = "white";
     }
 
     @GET
-    public String getColor() {
-        return color;
+    def getColor() {
+        color;
     }
 
     @Path("{color}")
     @POST
-    public void setColor(@PathParam("color") String color) {
+    def void setColor(@PathParam("color") String color) {
         this.color = color;
     }
 
     @Path("object")
     @GET
-    @Produces({ APPLICATION_JSON })
-    public Color getColorObject() {
-        return new Color("orange", 0xE7, 0x71, 0x00);
+    @Produces(MediaType.APPLICATION_JSON)
+    def getColorObject() {
+        new Color("orange", 0xE7, 0x71, 0x00);
     }
 }

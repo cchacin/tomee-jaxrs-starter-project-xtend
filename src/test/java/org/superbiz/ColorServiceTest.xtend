@@ -16,22 +16,18 @@
  */
 package org.superbiz;
 
-import org.apache.cxf.jaxrs.client.WebClient;
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.arquillian.test.api.ArquillianResource;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import java.net.URL
+import javax.ws.rs.core.MediaType
+import org.apache.cxf.jaxrs.client.WebClient
+import org.jboss.arquillian.container.test.api.Deployment
+import org.jboss.arquillian.junit.Arquillian
+import org.jboss.arquillian.test.api.ArquillianResource
+import org.jboss.shrinkwrap.api.ShrinkWrap
+import org.jboss.shrinkwrap.api.spec.WebArchive
+import org.junit.Test
+import org.junit.runner.RunWith
 
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
+import static org.junit.Assert.*
 
 /**
  * Arquillian will start the container, deploy all @Deployment bundles, then run all the @Test methods.
@@ -44,8 +40,8 @@ import java.net.URL;
  * of a class for another allowing for easy mocking.
  *
  */
-@RunWith(Arquillian.class)
-public class ColorServiceTest extends Assert {
+@RunWith(typeof(Arquillian))
+class ColorServiceTest {
 
     /**
      * ShrinkWrap is used to create a war file on the fly.
@@ -57,8 +53,8 @@ public class ColorServiceTest extends Assert {
      * More than one @Deployment method is allowed.
      */
     @Deployment
-    public static WebArchive createDeployment() {
-        return ShrinkWrap.create(WebArchive.class).addClasses(ColorService.class, Color.class);
+    def static WebArchive createDeployment() {
+        return ShrinkWrap.create(typeof(WebArchive)).addClasses(typeof(ColorService), typeof(Color));
     }
 
     /**
@@ -75,37 +71,29 @@ public class ColorServiceTest extends Assert {
 
 
     @Test
-    public void postAndGet() throws Exception {
+    def postAndGet() throws Exception {
 
         // POST
-        {
-            final WebClient webClient = WebClient.create(webappUrl.toURI());
-            final Response response = webClient.path("color/green").post(null);
+        val webClient = WebClient.create(webappUrl.toURI());
+        val response = webClient.path("color/green").post(null);
 
-            assertEquals(204, response.getStatus());
-        }
+        assertEquals(204, response.getStatus());
 
         // GET
-        {
-            final WebClient webClient = WebClient.create(webappUrl.toURI());
-            final Response response = webClient.path("color").get();
+        val webClient2 = WebClient.create(webappUrl.toURI());
+        val content = webClient2.path("color").get(typeof(String));
 
-            assertEquals(200, response.getStatus());
-
-            final String content = slurp((InputStream) response.getEntity());
-
-            assertEquals("green", content);
-        }
+        assertEquals("green", content);
 
     }
 
     @Test
-    public void getColorObject() throws Exception {
+    def getColorObject() throws Exception {
 
-        final WebClient webClient = WebClient.create(webappUrl.toURI());
+        val webClient = WebClient.create(webappUrl.toURI());
         webClient.accept(MediaType.APPLICATION_JSON);
 
-        final Color color = webClient.path("color/object").get(Color.class);
+        val color = webClient.path("color/object").get(typeof(Color));
 
         assertNotNull(color);
         assertEquals("orange", color.getName());
@@ -113,20 +101,4 @@ public class ColorServiceTest extends Assert {
         assertEquals(0x71, color.getG());
         assertEquals(0x00, color.getB());
     }
-
-    /**
-     * Reusable utility method
-     * Move to a shared class or replace with equivalent
-     */
-    public static String slurp(final InputStream in) throws IOException {
-        final ByteArrayOutputStream out = new ByteArrayOutputStream();
-        final byte[] buffer = new byte[1024];
-        int length;
-        while ((length = in.read(buffer)) != -1) {
-            out.write(buffer, 0, length);
-        }
-        out.flush();
-        return new String(out.toByteArray());
-    }
-
 }
