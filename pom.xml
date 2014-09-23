@@ -102,7 +102,7 @@
   </repositories>
 
   <properties>
-    <xtend.version>2.6.2</xtend.version>
+    <xtend.version>2.7.2</xtend.version>
     <tomee.version>1.7.1</tomee.version>
     <openejb.javaee.api>6.0-6</openejb.javaee.api>
     <openejb.version>4.7.1</openejb.version>

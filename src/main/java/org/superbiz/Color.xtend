@@ -17,21 +17,22 @@
 package org.superbiz;
 
 import javax.xml.bind.annotation.XmlRootElement;
+import org.eclipse.xtend.lib.annotations.Accessors
 
 @XmlRootElement
 class Color {
-    @Property String name
-    @Property int r
-    @Property int g
-    @Property int b
+    @Accessors String name
+    @Accessors int r
+    @Accessors int g
+    @Accessors int b
 
     new() {
     }
-    
+
     new(String name, int r, int g, int b) {
-        this._name = name
-        this._r = r
-        this._g = g
-        this._b = b
+        this.name = name
+        this.r = r
+        this.g = g
+        this.b = b
     }
 }
