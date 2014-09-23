@@ -60,7 +60,7 @@
     <dependency>
       <groupId>org.eclipse.xtend</groupId>
       <artifactId>org.eclipse.xtend.lib</artifactId>
-      <version>2.6.2</version>
+      <version>${xtend.version}</version>
     </dependency>
   </dependencies>
 
@@ -78,7 +78,7 @@
       <plugin>
         <groupId>org.eclipse.xtend</groupId>
         <artifactId>xtend-maven-plugin</artifactId>
-        <version>2.6.2</version>
+        <version>${xtend.version}</version>
         <executions>
           <execution>
             <goals>
@@ -102,6 +102,7 @@
   </repositories>
 
   <properties>
+    <xtend.version>2.6.2</xtend.version>
     <tomee.version>1.7.1</tomee.version>
     <openejb.javaee.api>6.0-6</openejb.javaee.api>
     <openejb.version>4.7.1</openejb.version>
